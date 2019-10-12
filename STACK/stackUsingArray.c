@@ -2,7 +2,7 @@
 #include<stdio.h>
 int SIZE=100;
 int Stack[100], top = -1;
-// Function to check if stack is full.
+
 int isFull()
 {
 if(top==SIZE-1)
@@ -10,8 +10,6 @@ if(top==SIZE-1)
 else
   return 0;
 }
-
-// Function to check if stack is empty.
 int isEmpty()
 {
 if(top==-1)
