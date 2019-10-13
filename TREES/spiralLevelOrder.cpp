@@ -19,6 +19,9 @@ if(top==-1)
 else
   return 0;
 }
+
+
+
 int isEmptyStack2()
 {
 if(top2==-1)
@@ -27,29 +30,32 @@ else
   return 0;
 }
 // Function to add an item to stack.
+
+
+
 void push(struct Node* item)
 {
   Stack[++top] = item;  
 }
 void push2(struct Node* item)
 {
-  Stack2[++top] = item;  
+  Stack2[++top2] = item;  
 }
 // Function to remove an item from stack.
 struct Node * pop()
 {
 if(isEmptyStack())
-//  return -1;
 {}
   struct Node * temp=Stack[top--];
   return temp;
 }
+
 struct Node * pop2()
 {
 if(isEmptyStack2())
 //  return -1;
 {}
-  struct Node * temp=Stack2[top--];
+  struct Node * temp=Stack2[top2--];
   return temp;
 }
 
@@ -118,45 +124,53 @@ void printInorder(struct Node * root)
 
 
 
-void printLevelOrder(struct Node * root)
+
+
+void popAndPrintStack2()
 {
-	if(isEmpty())
-	return;
-	else{
-//		struct Node *root=pop();
-		 
-		 if(root->right!=NULL)
-	      push(root->right);
-	    if(root->left!=NULL)
-	      push(root->left);
-	    
-	    
-	    if(root->right!=NULL)
-	    printLevelOrder(root->right);
-	    if(root->left!=NULL)
-	    printLevelOrder(root->left);
-		if(root->left!=NULL)
-	    cout<<(pop()->data)<<"-";
-	    if(root->right!=NULL)
-	    cout<<(pop()->data)<<"-";
-	    
+	while(isEmptyStack2()==0)
+	{
+		struct Node * temp=pop2();
+		cout<<temp->data<<" ";
+		if(temp->left!=NULL)
+		push(temp->left);
+		if(temp->right!=NULL)
+		push(temp->right);
 	}
 }
 
-void printLevel(struct Node* root)
+void popAndPrintStack()
 {
-	if(isEmptyStack()&&isEmptyStack2())
+	while(isEmptyStack()==0)
+	{
+		struct Node * temp=pop();
+		cout<<temp->data<<" ";
+		if(temp->left!=NULL)
+		push2(temp->left);
+		if(temp->right!=NULL)
+		push2(temp->right);
+	}
+}
+
+
+
+void printLevelSpiral(struct Node* root)
+{
+	
+	if(!root)
 	return;
 	
 	push(root);
-
-	if(root->left!=NULL)
-	push2(root->left);
-	if(root->right!=NULL)
-	push2(root->right);
 	
+    while(true)
+    {
+	    if(isEmptyStack()&&isEmptyStack2())
+	 	break;
 	
-	printLevel(dequeue());
+	popAndPrintStack();
+	popAndPrintStack2();
+	
+	}
 }
 
 int main()
@@ -168,13 +182,7 @@ int main()
 	cout<<endl;
 	
 	
-	printLevel(root);
-	
-	while(isEmptyStack()==0)
-	{
-		cout<<pop()->data<<" ";
-	}
-	
+	printLevelSpiral(root);
 	
 	
 	
