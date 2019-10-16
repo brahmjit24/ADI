@@ -21,7 +21,6 @@ int search(int arr[],int size)
 
 int main()
 {
-	int arr[]={1,2,3,4,5,6,8,9,10};
 	int arr2[]={1,2,3,4,6,7,8};
 //	for(int i=0;i<10;i++)
 	cout<<"Missing "<<" Element is :"<<search(arr2,7)<<endl;

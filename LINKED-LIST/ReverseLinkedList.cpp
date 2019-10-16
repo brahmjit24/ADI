@@ -1,13 +1,10 @@
-
-
-
 #include<bits/stdc++.h>
 using namespace std;
 struct Node {
 	int data;
 	struct Node *next;
 };
-
+struct Node *head=NULL;
 struct Node * newNode(int data)
 {
 	struct Node *temp=(struct Node *)malloc(sizeof(struct Node));
@@ -158,77 +155,82 @@ void deleteFromMiddle(struct Node ** headRef,int position)
 }
 
 
-void createMergePoint(int n,struct Node ** headRef1,struct Node ** headRef2)
+void reverseList(struct Node ** head)
 {
-	struct Node *temp=*headRef1;
-	while(n!=0)
-	{
-		temp=temp->next;
-		n--;
+	if(*head==NULL)
+	return ;
+	else{
+		struct Node * prev=NULL;
+		struct Node * next=NULL;
+		struct Node * curr=*head;
+		while(curr!=NULL)
+		{
+
+			next=curr->next;
+			curr->next=prev;
+			prev=curr;
+			curr=next;
+			
+		}
+		*head=prev;
 	}
-	struct Node *temp2=*headRef2;
-	while(temp2->next!=NULL)
-	{
-		temp2=temp2->next;
-	}
-	temp2->next=temp;
-	
 }
-struct Node* findMergePoint(struct Node* head1, struct Node* head2) 
-{
-  int s1=sizeList(head1);
-  int s2=sizeList(head2);
-  if(s1>s2)
-  {
-  	int diff=s1-s2;
-  	while(diff!=0)
-  	{
-  		head1=head1->next;
-  		diff--;
-	}
-	while(head1!=NULL&&head2!=NULL&&head1!=head2)
-	{
-		head1=head1->next;
-		head2=head2->next;
-	}
-  }
-  else{
-  	int diff=s2-s2;
-  	while(diff!=0)
-  	{
-  		head2=head2->next;
-  		diff--;
-	}
-	while(head1!=NULL&&head2!=NULL&&head1!=head2)
-	{
-		head1=head1->next;
-		head2=head2->next;
-	}
-  }
- return head1;
+
+
+struct Node* reverse(struct Node* head){
+    if(head->next == NULL){
+        return head;
+    }
+
+    struct Node* newHead = reverse(head->next);
+    head->next->next = head;
+    head->next = NULL;
+
+    return newHead;
 }
+
+
+
+struct Node *reverseListStack(struct Node* head) 
+{ 
+   //put in stack
+    stack<Node*> s; 
+    struct Node* temp=head; 
+    while(temp->next!=NULL)
+	{
+        s.push(temp); 
+        temp=temp->next; 
+    }  
+    head=temp; 
+    //recreate from stack
+    while(!s.empty())
+	{ 
+        temp->next = s.top(); 
+  		s.pop(); 
+        temp = temp->next;   
+    } 
+    temp->next=NULL; 
+    return head; 
+} 
+
 
 int main()
 {
-	struct Node *head=NULL;
+	
 	for(int i=1;i<7;i++)
 	{
-		insertAtEnd(&head,i);
+		insertAtBegin(&head,i);
+//		insertAtEnd(&head,i);
 	}
+	cout<<"Printing List After Insertion FRONT and END :"<<endl;
 	printList(head);
-	cout<<endl;
-	struct Node *head2=NULL;
-	for(int i=1;i<5;i++)
-	{
-		insertAtEnd(&head2,i*11);
-	}
-
-	int mergePoint=4;
-	createMergePoint(mergePoint,&head,&head2);
-		printList(head2);
-	cout<<endl;
-	struct Node * merge=findMergePoint(head,head2);
-	printList(merge);
-	
+	cout<<"\nAFTER REVERSE\n";
+    reverseList(&head);
+	printList(head);
+	struct Node * temp=reverse(head);
+	cout<<"\nRecursive Reverse : \n";
+	printList(temp);
+	struct Node * st=reverseListStack(temp);
+	cout<<"\nStack Reverse : \n";
+	printList(st);
 }
-

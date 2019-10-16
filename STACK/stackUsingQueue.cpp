@@ -75,7 +75,6 @@ void push(int item)
 int pop()
 {
 	int temp=-1;
-//	cout<<"ISEMPTY "<<isEmpty()<<" ISEMPTY2 "<<isEmpty2()<<endl;
   if(isEmpty2())
    while(isEmpty()==0)
   	{

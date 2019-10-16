@@ -1,5 +1,9 @@
-
-
+/*
+struct Node {
+	int data;
+	struct Node * next;
+};
+*/
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -7,7 +11,7 @@ struct Node {
 	int data;
 	struct Node *next;
 };
-
+struct Node *head=NULL;
 struct Node * newNode(int data)
 {
 	struct Node *temp=(struct Node *)malloc(sizeof(struct Node));
@@ -158,77 +162,113 @@ void deleteFromMiddle(struct Node ** headRef,int position)
 }
 
 
-void createMergePoint(int n,struct Node ** headRef1,struct Node ** headRef2)
+
+
+bool IsAccessible(struct Node * source,struct Node* target,int count)
 {
-	struct Node *temp=*headRef1;
-	while(n!=0)
+while(count!=0)
+{
+if(target==source)
+return true;
+source=source->next;
+count--;
+}
+return false;
+}
+
+
+int getElementCount(struct Node * ptr)
+{
+	int count=1;
+	if(ptr==NULL)
+	return 0;
+	
+	struct Node * temp=ptr->next;
+	while(temp!=ptr)
 	{
 		temp=temp->next;
-		n--;
+		count++;
 	}
-	struct Node *temp2=*headRef2;
-	while(temp2->next!=NULL)
-	{
-		temp2=temp2->next;
-	}
-	temp2->next=temp;
-	
+	return count;
 }
-struct Node* findMergePoint(struct Node* head1, struct Node* head2) 
+
+void removeLoop(struct Node * ptr)
 {
-  int s1=sizeList(head1);
-  int s2=sizeList(head2);
-  if(s1>s2)
+  struct Node* temp=head;
+  int count_Ele=getElementCount(ptr);
+  while(IsAccessible(ptr,temp,count_Ele)==false)
   {
-  	int diff=s1-s2;
-  	while(diff!=0)
-  	{
-  		head1=head1->next;
-  		diff--;
-	}
-	while(head1!=NULL&&head2!=NULL&&head1!=head2)
-	{
-		head1=head1->next;
-		head2=head2->next;
-	}
+  temp=temp->next;
   }
-  else{
-  	int diff=s2-s2;
-  	while(diff!=0)
-  	{
-  		head2=head2->next;
-  		diff--;
-	}
-	while(head1!=NULL&&head2!=NULL&&head1!=head2)
-	{
-		head1=head1->next;
-		head2=head2->next;
-	}
+  while(count_Ele!=1)
+  {
+  temp=temp->next;
+  count_Ele--;
   }
- return head1;
+  temp->next=NULL;
+
 }
+
+
+int detectLoopAndRemove(struct Node * head)
+{
+	if(!head)
+	return 0;
+	else{
+		if(head->next==head)
+		return 1;
+		struct Node * slow=head;
+		struct Node * fast=head->next;
+		while(fast!=NULL&&fast->next!=NULL)
+		{
+			
+			slow=slow->next;
+			fast=fast->next->next;
+			if(fast==slow)
+			{removeLoop(slow);
+			}
+		}
+		return 0;
+	}
+}
+
+
+
+ void createLoop(int loopPoint)
+{
+   struct Node * temp=head;
+   int count=0;
+   while(count!=loopPoint)
+   {
+    count++;
+    temp=temp->next;
+   
+   }
+   struct Node * t=head;
+   while(t->next!=NULL)
+   {
+   	t=t->next;
+   }
+   t->next=temp;
+}
+
+
+//POSITION STARTS FROM ZERO ...
+
 
 int main()
 {
-	struct Node *head=NULL;
-	for(int i=1;i<7;i++)
+	
+	for(int i=1;i<=8;i++)
 	{
+//		insertAtBegin(&head,i);
 		insertAtEnd(&head,i);
 	}
-	printList(head);
-	cout<<endl;
-	struct Node *head2=NULL;
-	for(int i=1;i<5;i++)
-	{
-		insertAtEnd(&head2,i*11);
-	}
-
-	int mergePoint=4;
-	createMergePoint(mergePoint,&head,&head2);
-		printList(head2);
-	cout<<endl;
-	struct Node * merge=findMergePoint(head,head2);
-	printList(merge);
 	
+    createLoop(3);
+    cout<<detectLoopAndRemove(head)<<endl;
+	printList(head);
 }
+
+
 
