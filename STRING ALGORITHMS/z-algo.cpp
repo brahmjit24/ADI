@@ -16,26 +16,6 @@ int count(string s,int strt1,int strt2)
 	return match;
 }
 
-void chk(int n,string x,string s,int j)
-{
-	s=s+x;
-	if(n==s.length())
-	{
-		cout<<s<<endl;
-	}
-	else
-	{
-		if(s.length()==j-1)
-		chk(n,"1",s,j);
-		else{
-		chk(n,"0",s,j);
-		chk(n,"1",s,j);
-	}
-	}
-}
-
-
-
 
 int main()
 {
